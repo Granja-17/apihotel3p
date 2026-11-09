@@ -4,9 +4,18 @@ meta {
   seq: 1
 }
 
-get {
-  url: https://api.example.com
-  body: none
+post {
+  url: http://127.0.0.1:5000/hoteis/Fama
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "nome": "Hotel Fama",
+    "estrelas": 4.7,
+    "diaria": 160.00,
+    "cidade": "Famalicao"
+  }
 }
 ​
