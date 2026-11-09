@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.user import UserModel
 from hmac import compare_digest
-from flask_jwt_extended import create_acess_token
+from flask_jwt_extended import create_access_token
 
 class User(Resource):
     def get(self, username):
@@ -25,9 +25,9 @@ class UserRegister(Resource):
     argumentos.add_argument("username", type=str, required=True, help="Username obrigatório")
     argumentos.add_argument("password", type=str, required=True, help="Password obrigatório")
 
-    def post(self,username):
+    def post(self):
         dados = UserRegister.argumentos.parse_args() # Dicionário
-        user = UserModel.find_hotel(username)
+        user = UserModel.find_user(dados["username"])
         if user:
                 return { "message": "User with this ussername already exists"}
         try:
@@ -47,7 +47,7 @@ class UserLogin(Resource):
         user = UserModel.find_user(dados["username"])
 
         if user and compare_digest(user.password, dados["password"]):
-            token = create_acess_token(identity=user.username)
+            token = create_access_token(identity=user.username)
             return {"acess_token": token}
         return { "message": "User or password invalid!" },401
 

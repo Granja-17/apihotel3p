@@ -4,6 +4,7 @@ from resources.hotel import Hoteis, Hotel
 from resources.user import User, UserRegister, UserLogin, UserLogout
 from conexao import bd
 from flask_jwt_extended import JWTManager
+from datetime import timedelta
 
 app = Flask(__name__)
 
@@ -11,6 +12,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///hoteis.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["JWT_SECRET_KEY"] = "my_secret_key_has_to_be_always_sempre"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=15)
 
 api= Api(app)
 jwt = JWTManager(app)
@@ -19,9 +21,9 @@ jwt = JWTManager(app)
 api.add_resource(Hoteis,"/hoteis")
 api.add_resource(Hotel, "/hoteis/<string:id_hotel>")
 api.add_resource(User, "/users/<string:username>")
-api.add_resource(UserRegister, "/users/<string:registar>")
-api.add_resource(UserLogin, "/usres/<string:login>")
-api.add_resource(UserLogout, "/users/<string:logout>")
+api.add_resource(UserRegister, "/registar")
+api.add_resource(UserLogin, "/login")
+api.add_resource(UserLogout, "/logout")
 
 #Iniciar aplicação
 if __name__ == "__main__":
